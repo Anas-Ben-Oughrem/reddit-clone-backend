@@ -1,0 +1,25 @@
+package com.training.redditclone.entities;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Answer implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Question question;
+
+    private String content;
+
+    private boolean correct;
+}
