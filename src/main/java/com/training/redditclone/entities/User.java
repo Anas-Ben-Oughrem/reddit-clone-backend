@@ -32,6 +32,7 @@ public class User implements UserDetails {
     @NotEmpty(message = "The Email is required")
     private String email;
     private String phoneNumber;
+    private String gender;
     private Instant createdAt;
     private boolean enabled;
     private int numberOfAlerts = 0;

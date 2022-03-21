@@ -5,21 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Answer implements Serializable {
+@Data
+public class MBTIResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Question question;
+    @OneToOne
+    private MBTIQuiz mbtiQuiz;
 
-    private String content;
+    @OneToOne
+    private User user;
 
-    private boolean correct;
+    private String personalityType;
 }

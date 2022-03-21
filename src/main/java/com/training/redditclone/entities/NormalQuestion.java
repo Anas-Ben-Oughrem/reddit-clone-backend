@@ -6,18 +6,22 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Question implements Serializable {
+public class NormalQuestion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
-    private String content;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy="question")
-    private Set<Answer> answers = new HashSet<Answer>(0);
+
+    private String description;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy= "normalQuestion")
+    private List<NormalAnswer> normalAnswers;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private NormalQuiz quiz;
 }
