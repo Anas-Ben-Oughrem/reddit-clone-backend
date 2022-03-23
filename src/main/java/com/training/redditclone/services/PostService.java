@@ -5,6 +5,7 @@ import com.training.redditclone.dto.PostResponse;
 import com.training.redditclone.entities.Post;
 import com.training.redditclone.entities.User;
 import com.training.redditclone.exceptions.PostNotFoundException;
+import com.training.redditclone.exceptions.SpringRedditException;
 import com.training.redditclone.mappers.PostMapper;
 import com.training.redditclone.repositories.PostRepository;
 import com.training.redditclone.repositories.UserRepository;
@@ -57,4 +58,22 @@ public class PostService {
                 .stream().map(postMapper::mapToDto)
                 .collect(toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<Post> getPostsByDepartment(){
+        User user = authService.getCurrentUser();
+        return postRepository.findByUser_Department(user.getDepartment());
+    }
+
+    public void sharePost(Long userId,Long postId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new SpringRedditException("No User found with provided id"));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new SpringRedditException("No post was found with given id"));
+
+        post.getSharers().add(user);
+
+    }
+
+
 }

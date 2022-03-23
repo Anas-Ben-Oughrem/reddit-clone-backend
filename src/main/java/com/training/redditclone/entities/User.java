@@ -33,6 +33,7 @@ public class User implements UserDetails {
     private String email;
     private String phoneNumber;
     private String gender;
+    private String department;
     private Instant createdAt;
     private boolean enabled;
     private int numberOfAlerts = 0;

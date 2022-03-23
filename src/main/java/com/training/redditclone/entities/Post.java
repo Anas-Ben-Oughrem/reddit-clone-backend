@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +24,6 @@ public class Post {
     private Instant createdDate;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> sharers;
 }
