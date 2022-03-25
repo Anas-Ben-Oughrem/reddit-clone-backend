@@ -43,5 +43,24 @@ public class PostController {
         return status(HttpStatus.OK).body(postService.getPostsByUsername(username));
     }
 
+    @PostMapping("/add-like/{postId}")
+    public void addLike(@PathVariable Long postId){
+        postService.likePostByID(postId);
+    }
+
+    @PostMapping("/add-dislike/{postId}")
+    public void addDislike(@PathVariable Long postId){
+        postService.dislikePostByID(postId);
+    }
+
+    @PostMapping("/remove-like/{postId}")
+    public void removeLike(@PathVariable Long postId){
+        postService.removeLike(postId);
+    }
+
+    @PostMapping("/remove-dislike/{postId}")
+    public void removeDislike(@PathVariable Long postId){
+        postService.removeDislike(postId);
+    }
 }
 

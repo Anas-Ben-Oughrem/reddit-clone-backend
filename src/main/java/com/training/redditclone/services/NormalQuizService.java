@@ -6,6 +6,8 @@ import com.training.redditclone.repositories.NormalQuizRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class NormalQuizService {
@@ -28,6 +30,10 @@ public class NormalQuizService {
     public NormalQuiz getQuizByTitle(String title){
         return  normalQuizRepository.findNormalQuizByTitle(title)
                 .orElseThrow(()-> new SpringRedditException("No quiz was found with the given title"));
+    }
+
+    public List<NormalQuiz> getAllNormalQuizzes(){
+        return normalQuizRepository.findAll();
     }
 
     public void deleteQuiz(Long id){

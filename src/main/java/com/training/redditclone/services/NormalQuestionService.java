@@ -6,6 +6,8 @@ import com.training.redditclone.repositories.NormalQuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class NormalQuestionService {
@@ -27,5 +29,9 @@ public class NormalQuestionService {
 
     public void deleteQuestion(Long id){
         normalQuestionRepository.deleteById(id);
+    }
+
+    public List<NormalQuestion> getAllNormalQuestions() {
+        return normalQuestionRepository.findAll();
     }
 }

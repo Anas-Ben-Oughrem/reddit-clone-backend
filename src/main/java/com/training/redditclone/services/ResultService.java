@@ -18,11 +18,11 @@ public class ResultService {
 
     private final ResultRepository resultRepository;
 
-    public Result createQuestion(Result result){
+    public Result createResult(Result result){
         return resultRepository.save(result);
     }
 
-    public Result updateQuestion(Result result){
+    public Result updateResult(Result result){
         return  resultRepository.save(result);
     }
 
@@ -31,7 +31,7 @@ public class ResultService {
                 .orElseThrow(()->new SpringRedditException("No question was found with given id"));
     }
 
-    public void deleteQuestion(Long id){
+    public void deleteResult(Long id){
         resultRepository.deleteById(id);
     }
 

@@ -26,4 +26,8 @@ public class Post {
     private User user;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<User> sharers;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> likers;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> dislikers;
 }

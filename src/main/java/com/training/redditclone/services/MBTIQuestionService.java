@@ -7,6 +7,8 @@ import com.training.redditclone.repositories.NormalQuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MBTIQuestionService {
@@ -19,6 +21,10 @@ public class MBTIQuestionService {
 
     public MBTIQuestion updateQuestion(MBTIQuestion mbtiQuestion){
         return  mbtiQuestionRepository.save(mbtiQuestion);
+    }
+
+    public List<MBTIQuestion> getAllMBTIQuestions(){
+        return mbtiQuestionRepository.findAll();
     }
 
     public MBTIQuestion getMBTIQuestion(Long id) {

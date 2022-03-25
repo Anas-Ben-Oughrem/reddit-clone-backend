@@ -8,17 +8,19 @@ import com.training.redditclone.repositories.NormalAnswerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MBTIAnswerService {
 
     private final MBTIAnswerRepository mbtiAnswerRepository;
 
-    public MBTIAnswer createQuestion(MBTIAnswer mbtiAnswer){
+    public MBTIAnswer createAnswer(MBTIAnswer mbtiAnswer){
         return mbtiAnswerRepository.save(mbtiAnswer);
     }
 
-    public MBTIAnswer updateQuestion(MBTIAnswer mbtiAnswer){
+    public MBTIAnswer updateAnswer(MBTIAnswer mbtiAnswer){
         return  mbtiAnswerRepository.save(mbtiAnswer);
     }
 
@@ -27,7 +29,11 @@ public class MBTIAnswerService {
                 .orElseThrow(()->new SpringRedditException("No question was found with given id"));
     }
 
-    public void deleteQuestion(Long id){
+    public List<MBTIAnswer> getAllMBTIAnswersByQuestionId(Long id){
+        return mbtiAnswerRepository.findAllByMbtiQuestion_Id(id);
+    }
+
+    public void deleteAnswer(Long id){
         mbtiAnswerRepository.deleteById(id);
     }
 }

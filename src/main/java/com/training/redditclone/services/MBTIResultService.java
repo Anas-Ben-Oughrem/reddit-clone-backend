@@ -15,24 +15,29 @@ public class MBTIResultService {
 
     private final MBTIResultRepository mbtiResultRepository;
 
-    public MBTIResult createQuestion(MBTIResult mbtiResult){
+    public MBTIResult createResult(MBTIResult mbtiResult){
         return mbtiResultRepository.save(mbtiResult);
     }
 
-    public MBTIResult updateQuestion(MBTIResult mbtiResult){
+    public MBTIResult updateResult(MBTIResult mbtiResult){
         return  mbtiResultRepository.save(mbtiResult);
     }
 
     public MBTIResult getMBTIResult(Long id) {
         return mbtiResultRepository.findById(id)
-                .orElseThrow(()->new SpringRedditException("No question was found with given id"));
+                .orElseThrow(()->new SpringRedditException("No result was found with given id"));
     }
 
-    public void deleteQuestion(Long id){
+    public MBTIResult getMBTIResultByUsername(String username){
+        return mbtiResultRepository.findByUser_Username(username)
+                .orElseThrow(()->new SpringRedditException("No result was found with given username"));
+    }
+
+    public void deleteResult(Long id){
         mbtiResultRepository.deleteById(id);
     }
 
-    public String getPesonalityType(Long id, List<MBTIAnswer> answers){
+    public String getPersonalityType(Long id, List<MBTIAnswer> answers){
 
         MBTIResult result = mbtiResultRepository.findById(id)
                 .orElseThrow(()-> new SpringRedditException("No result found with given id"));
