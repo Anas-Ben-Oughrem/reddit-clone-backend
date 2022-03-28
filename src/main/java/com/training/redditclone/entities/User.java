@@ -1,15 +1,13 @@
 package com.training.redditclone.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -17,6 +15,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -37,7 +36,8 @@ public class User implements Serializable {
     private String gender;
     private String department;
     private Instant createdAt;
-    private boolean enabled;
+    private int badWords;
+    private boolean enabled = true;
     private int numberOfAlerts = 0;
     private String firstName;
     private String lastName;
@@ -49,5 +49,22 @@ public class User implements Serializable {
     private String[] authorities;
     private boolean isActive;
     private boolean isNotLocked;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<CommentEvent> commentsE;
+
+    @Enumerated(EnumType.STRING)
+    private CentreInter centreInter;
+
+    @OneToMany(mappedBy = "user")
+    private Set<CI> cI;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Favourite> favourites;
+
+    @ManyToMany(mappedBy = "users" , cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Event> events;
 
 }

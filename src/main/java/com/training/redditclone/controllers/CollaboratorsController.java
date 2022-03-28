@@ -1,8 +1,10 @@
 package com.training.redditclone.controllers;
 
 import com.training.redditclone.entities.Collaborators;
+import com.training.redditclone.exceptions.UserNotFoundException;
 import com.training.redditclone.services.CollaboratorsService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,15 +32,23 @@ public class CollaboratorsController {
     }
 
     @GetMapping("/{id}")
-    public Collaborators getCollaborators(@PathVariable Integer id){
-        return collaboratorsService.getCollaborators(id);
+    public ResponseEntity<Collaborators> getCollaboratorById(@PathVariable Integer id) throws UserNotFoundException {
+        return collaboratorsService.getCollaboratorById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCollaborators(@PathVariable Integer id){
+    public void deleteCollaborators(@PathVariable Integer id)  {
         collaboratorsService.deleteCollaborators(id);
     }
 
+    @PostMapping("/add-reservation/{collaboratorId}/{eventId}")
+    private void reserveCollaborator(@PathVariable int collaboratorId, @PathVariable Long eventId){
+        collaboratorsService.reserveCollaborator(collaboratorId,eventId);
+    }
 
+    @PostMapping("/removeReservation/{collaboratorId}")
+    public void removeReservation(@PathVariable int collaboratorId){
+        collaboratorsService.removeReservation(collaboratorId);
+    }
 }
 
