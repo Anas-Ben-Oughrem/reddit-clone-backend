@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @AllArgsConstructor
 @RestController
+@RequestMapping("/api/normal-questions")
 public class NormalQuestionController {
 
     private final NormalQuestionService normalQuestionService;

@@ -13,14 +13,16 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User implements UserDetails {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -35,26 +37,17 @@ public class User implements UserDetails {
     private String gender;
     private String department;
     private Instant createdAt;
-    private boolean enabled;
+    private boolean enabled = true;
     private int numberOfAlerts = 0;
+    private String firstName;
+    private String lastName;
+    private String profileImageUrl;
+    private Date lastLoginDate;
+    private Date lastLoginDateDisplay;
+    private Date joinDate;
+    private String role; //ROLE_USER{ read, edit }, ROLE_ADMIN {delete}
+    private String[] authorities;
+    private boolean isActive;
+    private boolean isNotLocked;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return isEnabled();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isEnabled();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isEnabled();
-    }
 }

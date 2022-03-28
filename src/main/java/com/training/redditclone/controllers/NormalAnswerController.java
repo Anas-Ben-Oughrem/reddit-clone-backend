@@ -7,6 +7,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
+@RequestMapping("/api/normal-answers")
 public class NormalAnswerController {
 
     private final NormalAnswerService normalAnswerService;
