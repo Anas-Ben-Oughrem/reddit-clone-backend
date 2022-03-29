@@ -1,7 +1,5 @@
 package com.training.redditclone.controllers;
 
-import com.training.redditclone.dto.PostRequest;
-import com.training.redditclone.dto.PostResponse;
 import com.training.redditclone.entities.Post;
 import com.training.redditclone.services.PostService;
 import lombok.AllArgsConstructor;
@@ -22,24 +20,24 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping
-    public ResponseEntity createPost(@RequestBody PostRequest postRequest) {
-        postService.save(postRequest);
+    @PostMapping("/add")
+    public ResponseEntity createPost(@RequestParam String description) {
+        postService.save(description);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<PostResponse>> getAllPosts() {
+    public ResponseEntity<List<Post>> getAllPosts() {
         return status(HttpStatus.OK).body(postService.getAllPosts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
+    public ResponseEntity<Post> getPost(@PathVariable Long id) {
         return status(HttpStatus.OK).body(postService.getPost(id));
     }
 
-    @GetMapping("by-user/{name}")
-    public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
+    @GetMapping("by-user/{username}")
+    public ResponseEntity<List<Post>> getPostsByUsername(@PathVariable String username) {
         return status(HttpStatus.OK).body(postService.getPostsByUsername(username));
     }
 
@@ -61,6 +59,11 @@ public class PostController {
     @PostMapping("/remove-dislike/{postId}")
     public void removeDislike(@PathVariable Long postId){
         postService.removeDislike(postId);
+    }
+
+    @PostMapping("/share/{userId}/{postId}")
+    public void sharePost(@PathVariable Long userId,@PathVariable Long postId){
+        postService.sharePost(userId,postId);
     }
 }
 

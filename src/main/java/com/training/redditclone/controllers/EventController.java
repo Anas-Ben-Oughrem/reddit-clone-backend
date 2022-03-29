@@ -89,14 +89,14 @@ public class EventController {
 	
 	@GetMapping("/getUsersByComment/{idEvent}")
 	@ResponseBody
-	public List<User> getUsersByComment(@PathVariable("idEvent") Long idEevent){
-		return eventService.getUsersByComment(idEevent);
+	public List<User> getUsersByComment(@PathVariable("idEvent") Long idEvent){
+		return eventService.getUsersByComment(idEvent);
 	}
 	
 	@GetMapping("/getUsersByLikes/{idEvent}")
 	@ResponseBody
-	public List<User> getUsersByLikes(@PathVariable("idEvent") Long idEevent){
-		return eventService.getUsersByLikes(idEevent);
+	public List<User> getUsersByLikes(@PathVariable("idEvent") Long idEvent){
+		return eventService.getUsersByLikes(idEvent);
 	}
 	
 	@GetMapping("/getUsersByCentreInterest/{idUser}")

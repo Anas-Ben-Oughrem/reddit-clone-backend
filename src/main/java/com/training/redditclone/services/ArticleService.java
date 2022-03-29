@@ -3,12 +3,10 @@ package com.training.redditclone.services;
 import com.training.redditclone.dto.ArticleRequest;
 import com.training.redditclone.dto.ArticleResponse;
 import com.training.redditclone.dto.SmsRequest;
-import com.training.redditclone.entities.Article;
-import com.training.redditclone.entities.Category;
-import com.training.redditclone.entities.NotificationEmail;
-import com.training.redditclone.entities.User;
+import com.training.redditclone.entities.*;
 import com.training.redditclone.exceptions.ArticleNotFoundException;
 import com.training.redditclone.exceptions.PostNotFoundException;
+import com.training.redditclone.exceptions.SpringRedditException;
 import com.training.redditclone.mappers.ArticleMapper;
 import com.training.redditclone.repositories.ArticleRepository;
 import com.training.redditclone.repositories.CategoryRepository;
@@ -131,5 +129,15 @@ public class ArticleService {
 
     public void deleteArticle(Long id){
         articleRepository.deleteById(id);
+    }
+
+    public void sharePost(Long userId, Long articleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new SpringRedditException("No User found with provided id"));
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(()-> new SpringRedditException("No post was found with given id"));
+
+        article.getSharers().add(user);
+        articleRepository.save(article);
     }
 }

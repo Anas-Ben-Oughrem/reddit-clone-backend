@@ -1,14 +1,13 @@
 package com.training.redditclone.services;
 
-import com.training.redditclone.dto.PostRequest;
-import com.training.redditclone.dto.PostResponse;
+
 import com.training.redditclone.dto.SmsRequest;
 import com.training.redditclone.entities.Post;
 import com.training.redditclone.entities.NotificationEmail;
 import com.training.redditclone.entities.User;
 import com.training.redditclone.exceptions.PostNotFoundException;
 import com.training.redditclone.exceptions.SpringRedditException;
-import com.training.redditclone.mappers.PostMapper;
+
 import com.training.redditclone.repositories.PostRepository;
 import com.training.redditclone.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +32,6 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final AuthService authService;
-    private final PostMapper postMapper;
     private final UserRepository userRepository;
     private final String[] badwords = {"bitch","ass","asshole","cunt","dick","fuck","shit"};
     private static final int maxAlerts = 5;
@@ -40,33 +39,35 @@ public class PostService {
     private final MailContentBuilder mailContentBuilder;
     private final MailService mailService;
 
-    public Post save(PostRequest postRequest) {
+    public Post save(String description) {
         User currentUser = authService.getCurrentUser();
-        return postMapper.map(postRequest, currentUser);
+        Post post = new Post();
+        post.setDescription(description);
+        post.setUser(currentUser);
+        post.setLikes(0);
+        post.setDislikes(0);
+        post.setCreatedDate(Instant.now());
+        post.setVoteCount(0);
+        return postRepository.save(post);
+
     }
 
     @Transactional(readOnly = true)
-    public PostResponse getPost(Long id) {
+    public Post getPost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(()-> new PostNotFoundException(id.toString()));
-        return postMapper.mapToDto(post);
+        return post;
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getAllPosts() {
-        return postRepository.findAll()
-                .stream()
-                .map(postMapper::mapToDto)
-                .collect(toList());
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
+
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getPostsByUsername(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException(username));
-        return postRepository.findByUser(user)
-                .stream().map(postMapper::mapToDto)
-                .collect(toList());
+    public List<Post> getPostsByUsername(String username) {
+        return postRepository.findAllByUser_Username(username);
     }
 
     @Transactional(readOnly = true)
@@ -82,6 +83,7 @@ public class PostService {
                 .orElseThrow(()-> new SpringRedditException("No post was found with given id"));
 
         post.getSharers().add(user);
+        postRepository.save(post);
 
     }
 

@@ -119,6 +119,7 @@ public class MBTIResultService {
 
         personalityType = mindResult + energyResult + natureResult + tacticsResult;
         result.setPersonalityType(personalityType);
+        mbtiResultRepository.save(result);
 
         return personalityType;
     }

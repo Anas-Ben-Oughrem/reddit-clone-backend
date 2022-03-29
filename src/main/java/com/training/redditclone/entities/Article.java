@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import java.time.Instant;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -37,4 +38,6 @@ public class Article {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Category category;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> sharers;
 }

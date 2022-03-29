@@ -1,10 +1,7 @@
 package com.training.redditclone.services;
 
 import com.training.redditclone.dto.CommentArticleDto;
-import com.training.redditclone.entities.Article;
-import com.training.redditclone.entities.CommentArticle;
-import com.training.redditclone.entities.NotificationEmail;
-import com.training.redditclone.entities.User;
+import com.training.redditclone.entities.*;
 import com.training.redditclone.exceptions.PostNotFoundException;
 import com.training.redditclone.mappers.CommentArticleMapper;
 import com.training.redditclone.repositories.ArticleRepository;
@@ -23,8 +20,8 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class CommentArticleService {
 
-    private static final String POST_URL = "";
 
+    private final NotificationService notificationService;
     private final ArticleRepository articleRepository;
     private final CommentArticleRepository commentArticleRepository;
     private final UserRepository userRepository;
@@ -40,8 +37,9 @@ public class CommentArticleService {
         commentArticleRepository.save(commentArticle);
 
         String message =
-                mailContentBuilder.build(article.getUser().getUsername() + " posted a commentArticle on your article." + POST_URL);
+                mailContentBuilder.build(article.getUser().getUsername() + " posted a commentArticle on your article." );
         sendCommentNotification(message, article.getUser());
+        notificationService.generateNotification(NotificationType.ARTICLE,message,article.getUser());
     }
 
     private void sendCommentNotification(String message, User user) {

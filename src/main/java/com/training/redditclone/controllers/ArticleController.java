@@ -45,4 +45,9 @@ public class ArticleController {
     public List<ArticleResponse> getArticleByUsername(String username){
         return articleService.getAllArticlesByUsername(username);
     }
+
+    @PostMapping("/share/{userId}/{articleId}")
+    public void sharePost(@PathVariable Long userId,@PathVariable Long articleId){
+        articleService.sharePost(userId,articleId);
+    }
 }
