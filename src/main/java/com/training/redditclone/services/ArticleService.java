@@ -65,8 +65,8 @@ public class ArticleService {
                             mailContentBuilder.build(article.getUser().getUsername() + ", This email is a warning for you not meeting the appropriate behaviour inside the app. Your recent post had offensive words. A matter that we condemn in the strongest of possible terms. We hope this act never repeats itself otherwise we will be in the obligation of taking punitive measures against you");
                     sendWarningNotification(message, article.getUser());
                     article.getUser().setNumberOfAlerts(article.getUser().getNumberOfAlerts() + 1);
-                    SmsRequest smsAlert = new SmsRequest(article.getUser().getPhoneNumber(),"article.getUser()" +
-                            ".getUsername() + \", This sms is a warning for you not meeting the appropriate behaviour" +
+                    SmsRequest smsAlert = new SmsRequest(article.getUser().getPhoneNumber(),article.getUser()
+                            .getUsername() + ", This sms is a warning for you not meeting the appropriate behaviour" +
                             " inside the app. Your recent post had offensive words. A matter that we condemn in the strongest of possible terms. We hope this act never repeats itself otherwise we will be in the obligation of taking punitive measures against you\"");
                     smsService.sendSms(smsAlert);
                     hasBadWords = false;
